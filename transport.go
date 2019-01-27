@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"github.com/go-kit/kit/endpoint"
 	"net/http"
 )
@@ -42,7 +43,7 @@ func makeCountEndpoint(srv StringService) endpoint.Endpoint {
 	return func(_ context.Context, request interface{}) (interface{}, error) {
 		req, ok := request.(CountRequest)
 		if !ok {
-			return CountResponse{0}, nil
+			return CountResponse{0}, errors.New("bad Request")
 		}
 		v := srv.Count(req.S)
 		return CountResponse{v}, nil
